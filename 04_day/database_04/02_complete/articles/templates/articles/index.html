@@ -1,0 +1,32 @@
+{% extends 'base.html' %} 
+
+{% block content %}
+  <h1>INDEX</h1>
+  {% if request.user.is_authenticated %}
+  <a href="{% url 'articles:create' %}">작성하기</a>
+  {% endif %}
+  <hr />
+
+  {% for article in articles %}
+    <p>
+      [{{article.id}}] 
+      <a href="{% url 'articles:detail' article.pk %}" id="article-title">{{article.title}}</a>
+      - 작성자: {{article.user}}
+    </p>
+    {% comment %} 좋아요가 몇개인지 {% endcomment %}
+    <span>좋아요 : {{article.like_users.count}}</span>
+    {% comment %} <span>좋아요 : {{article.like_users| length}}</span> {% endcomment %}
+    <form action="{% url 'articles:likes' article.pk %}" method ='POST'>
+      {% csrf_token %}
+      {% comment %} 요청한 user가 이미 좋아요한 목록에 있으면 {% endcomment %}
+      {% if request.user in article.like_users.all %}
+      <input type="submit" value="좋아요 취소">
+      {% else %}
+      <input type="submit" value="좋아요">
+      {% endif %}
+    </form>
+    <hr />
+  {% endfor %} 
+
+{% endblock content %}
+
