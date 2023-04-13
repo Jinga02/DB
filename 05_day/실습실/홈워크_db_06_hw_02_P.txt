@@ -1,0 +1,3 @@
+SELECT eat, AVG(weight) FROM practice_orms_zoo GROUP BY eat;
+
+Animal.objects.values('eat').annotate(avg_weight = Avg('weight'))
