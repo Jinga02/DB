@@ -1,9 +1,12 @@
 {% extends 'base.html' %} 
-
+{% load articles_tags %} 
 {% block content %}
   <h1>INDEX</h1>
   <a href="{% url 'articles:create' %}">작성하기</a>
   <hr />
+
+  {% comment %} 해쉬태그 {% endcomment %}
+  {% recent_articles 5 as r_aritlces %}
 
   {% for article in articles %}
     <p>
